@@ -14,11 +14,14 @@ WebServer server(80);
   //Función para contar almacenar los datos en el json
     void almacenarDatos(String _datos){
       if(dispEncontrados != 0){
+        Serial.println("dispEncontrados distinto de cero");
+        Serial.println("Datos recibidos:");
+        Serial.println(_datos);
         if((_datos.length() < LON_CADENA)){
           //Creamos los documentos JSON
           DynamicJsonDocument jsonAlmacenado(capacidadJSON);
           DynamicJsonDocument jsonRecibido(LON_STRING);
-          
+          Serial.println("Deserializamos el JSON");  
           DeserializationError errorAlmacenado = deserializeJson(jsonAlmacenado, dataSensores);
           
           if (!errorAlmacenado) {
@@ -79,6 +82,9 @@ WebServer server(80);
   // Funcion que se ejecutara cuando recibamos las MAC a configurar
     void handleSetMAC() 
     {  
+      
+      Serial.println(server.arg(0));
+      
       //Buscamos cuantos sensores ha introducido el usuario
       dispEncontrados = contarPalabras(MASCARA, server.arg(0));
 

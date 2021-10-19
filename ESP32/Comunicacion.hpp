@@ -28,6 +28,7 @@ String leerSerial(){
   tramaCompleta=false;
   inicioTrama=false;
   finTrama=false;
+  
   if (Serial2.available()) {
     while(!tramaCompleta){
       inByte = Serial2.read();
@@ -44,7 +45,13 @@ String leerSerial(){
         else
           finTrama=false;
       }
-      if(inicioTrama){      
+      if (!isAscii(inByte)){
+        //Comprobamos si es un caracter Ascii válido
+          inicioTrama=false;
+          finTrama=false;
+          tramaCompleta=false;
+          break;        
+        } else if(inicioTrama){      
         //Comprobamos si la cadena obtenida tiene mayor longitud de la esperada
         if (cadena.length() > LON_CADENA){
           inicioTrama=false;
